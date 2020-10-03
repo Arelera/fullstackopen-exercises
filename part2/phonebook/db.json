@@ -1,0 +1,14 @@
+{
+  "persons": [
+    {
+      "name": "Arto Hellas",
+      "number": "040-123456",
+      "id": 1
+    },
+    {
+      "name": "Some person",
+      "number": "123-123123-123123",
+      "id": 2
+    }
+  ]
+}
