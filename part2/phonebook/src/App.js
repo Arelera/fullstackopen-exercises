@@ -59,6 +59,7 @@ const App = () => {
       if (shouldUpdate) {
         let updatedPerson = persons.find((person) => person.name === newName);
         updatedPerson = { ...updatedPerson, number: newNumber };
+        console.log('updatedPerson', updatedPerson);
         personsService.update(updatedPerson);
 
         setPersons(

@@ -4,7 +4,7 @@ const Notification = ({ msg }) => {
   return (
     <div
       style={{
-        display: 'inline-block',
+        width: '100%',
         border: '2px solid #18b566',
         background: 'ebebeb',
         padding: '0 1rem',
