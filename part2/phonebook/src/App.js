@@ -42,9 +42,10 @@ const App = () => {
 
     if (isUniqueName) {
       personsService.create(newPerson).then((res) => {
-        setPersons(persons.concat(res.data));
-
-        giveNotification(`${res.data.name} added`);
+        // res is empty for some reason,
+        // so i cant use it for adding to state
+        setPersons(persons.concat(newPerson));
+        giveNotification(`${newPerson.name} added`);
 
         setNewName('');
         setNewNumber('');
