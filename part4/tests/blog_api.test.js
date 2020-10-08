@@ -4,6 +4,10 @@ const mongoose = require('mongoose');
 const api = supertest(app);
 const Blog = require('../models/blog');
 
+// THE TESTS ARE BROKEN
+// BECAUSE THEY WERE MADE BEFORE ANY AUTH STUFF
+// IM TOO LAZY TO FIX THEM RN
+
 const initialBlogs = [
   {
     title: 'Go To Statement Considered Harmful',
