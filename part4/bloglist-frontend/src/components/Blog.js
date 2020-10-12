@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import blogService from '../services/blogs';
 
-const Blog = ({ blogs, setBlogs, blog }) => {
+const Blog = ({ blogs, setBlogs, blog, handleLike }) => {
   const [expanded, setExpanded] = useState(false);
   const [blogState, setBlogState] = useState(blog);
 
-  const handleLike = () => {
-    const newBlog = {
-      ...blogState,
-      user: blogState.user.id,
-      likes: blogState.likes + 1,
-    };
-    delete newBlog.id;
-    setBlogState({ ...blogState, likes: blogState.likes + 1 });
+  // const handleLike = () => {
+  //   const newBlog = {
+  //     ...blogState,
+  //     user: blogState.user.id,
+  //     likes: blogState.likes + 1,
+  //   };
+  //   delete newBlog.id;
+  //   setBlogState({ ...blogState, likes: blogState.likes + 1 });
 
-    blogService.update(blog.id, newBlog);
-  };
+  //   blogService.update(blog.id, newBlog);
+  // };
 
   // TODO: have a remove blog button if user added that blog
 
@@ -38,7 +38,7 @@ const Blog = ({ blogs, setBlogs, blog }) => {
   };
 
   return (
-    <div style={{ borderBottom: '1px solid #aaa' }}>
+    <div className="blog" style={{ borderBottom: '1px solid #aaa' }}>
       <h3>
         {blog.title} - <em style={{ color: '#555' }}>{blog.author}</em>{' '}
         <button onClick={() => setExpanded(!expanded)}>view</button>
@@ -47,7 +47,13 @@ const Blog = ({ blogs, setBlogs, blog }) => {
         <div>
           <p>{blog.url}</p>
           <p>
-            likes {blogState.likes} <button onClick={handleLike}>like</button>
+            likes {blogState.likes}{' '}
+            <button
+              id="like"
+              onClick={() => handleLike(blogState, setBlogState, blog)}
+            >
+              like
+            </button>
           </p>
           <p>{blog.user.name}</p>
           <button onClick={handleRemoveClick}>remove</button>

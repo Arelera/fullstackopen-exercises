@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import blogService from './services/blogs';
 
+import Togglable from './components/Togglable';
 import Blog from './components/Blog';
 import BlogForm from './components/BlogForm';
 import LoginForm from './components/LoginForm';
@@ -13,7 +14,6 @@ function App() {
   useEffect(() => {
     blogService.getAll().then((blogs) => {
       setBlogs(blogs.sort((a, b) => b.likes - a.likes));
-      console.log(blogs);
     });
   }, []);
 
@@ -38,18 +38,39 @@ function App() {
     }, 5000);
   };
 
+  // had to move it here for tests
+  const handleLike = (blogState, setBlogState, blog) => {
+    const newBlog = {
+      ...blogState,
+      user: blogState.user.id,
+      likes: blogState.likes + 1,
+    };
+    delete newBlog.id;
+    setBlogState({ ...blogState, likes: blogState.likes + 1 });
+
+    blogService.update(blog.id, newBlog);
+  };
+
+  const blogFormRef = useRef();
+
   return (
     <div>
       <h2>blogs</h2>
 
-      {notification}
+      <p className="notification">{notification}</p>
       {user ? (
         <div>
-          <BlogForm
-            blogs={blogs}
-            setBlogs={setBlogs}
-            giveNotification={giveNotification}
-          />
+          <Togglable ref={blogFormRef} buttonLabel={'new blog'}>
+            <BlogForm
+              blogFormRef={blogFormRef}
+              blogs={blogs}
+              setBlogs={setBlogs}
+              giveNotification={giveNotification}
+            />
+            <button onClick={() => blogFormRef.current.toggleVisibility()}>
+              cancel
+            </button>
+          </Togglable>
           <p>
             {user.name} logged in <button onClick={handleLogout}>logout</button>
           </p>
@@ -59,6 +80,7 @@ function App() {
               setBlogs={setBlogs}
               key={blog.title}
               blog={blog}
+              handleLike={handleLike}
             />
           ))}
         </div>
