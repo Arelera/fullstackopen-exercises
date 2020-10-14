@@ -5,9 +5,11 @@ import { newNote } from '../reducers/anecdoteReducer';
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
 
-  const addNoteHandler = (e) => {
+  const addNoteHandler = async (e) => {
     e.preventDefault();
-    dispatch(newNote(e.target.content.value));
+    const content = e.target.content.value;
+    dispatch(newNote(content));
+    e.target.content.value = '';
   };
 
   return (

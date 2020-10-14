@@ -1,14 +1,16 @@
 //action creators
-export const giveNotification = (message) => {
-  return {
-    type: 'MESSAGE',
-    message,
-  };
-};
-export const removeNotification = (message) => {
-  return {
-    type: 'REMOVE',
-    message,
+export const setNotification = (message, ms = 5) => {
+  return async (dispatch) => {
+    dispatch({
+      type: 'MESSAGE',
+      message,
+    });
+    setTimeout(() => {
+      console.log('SETTIMEOUT');
+      dispatch({
+        type: 'REMOVE',
+      });
+    }, ms * 1000);
   };
 };
 

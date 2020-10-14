@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { vote } from '../reducers/anecdoteReducer';
 import {
-  giveNotification,
+  setNotification,
   removeNotification,
 } from '../reducers/notificationReducer';
 
@@ -19,13 +19,13 @@ const AnecdoteList = () => {
   });
 
   const voteHandler = (anecdote) => {
-    dispatch(vote(anecdote.id));
+    // DOESNT WORK, MAKE IT WORK WITH JSON-SERVER
+    dispatch(vote(anecdote));
 
-    dispatch(giveNotification(`You voted "${anecdote.content}"`));
-    setTimeout(() => {
-      dispatch(removeNotification());
-      console.log('REMOVE');
-    }, 1000);
+    dispatch(setNotification(`You voted "${anecdote.content}"`, 10));
+    // setTimeout(() => {
+    //   dispatch(removeNotification());
+    // }, 5000);
   };
 
   return (
