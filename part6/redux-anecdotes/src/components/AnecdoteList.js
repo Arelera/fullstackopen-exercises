@@ -1,31 +1,29 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { vote } from '../reducers/anecdoteReducer';
-import {
-  setNotification,
-  removeNotification,
-} from '../reducers/notificationReducer';
+import { setNotification } from '../reducers/notificationReducer';
 
-const AnecdoteList = () => {
-  const dispatch = useDispatch();
-  const filter = useSelector((state) => state.filter);
+const AnecdoteList = (props) => {
+  // const dispatch = useDispatch();
+  // const filter = useSelector((state) => state.filter);
 
-  const anecdotes = useSelector(({ anecdotes }) => {
-    return anecdotes
-      .sort((a, b) => b.votes - a.votes)
-      .filter((anecdote) =>
-        anecdote.content.toLowerCase().includes(filter.toLowerCase())
-      );
-  });
+  const anecdotes = props.anecdotes
+    .sort((a, b) => b.votes - a.votes)
+    .filter((anecdote) =>
+      anecdote.content.toLowerCase().includes(props.filter.toLowerCase())
+    );
+
+  // const anecdotes = useSelector(({ anecdotes }) => {
+  //   return anecdotes
+  //     .sort((a, b) => b.votes - a.votes)
+  //     .filter((anecdote) =>
+  //       anecdote.content.toLowerCase().includes(filter.toLowerCase())
+  //     );
+  // });
 
   const voteHandler = (anecdote) => {
-    // DOESNT WORK, MAKE IT WORK WITH JSON-SERVER
-    dispatch(vote(anecdote));
-
-    dispatch(setNotification(`You voted "${anecdote.content}"`, 10));
-    // setTimeout(() => {
-    //   dispatch(removeNotification());
-    // }, 5000);
+    props.vote(anecdote);
+    props.setNotification(`You voted "${anecdote.content}"`, 5);
   };
 
   return (
@@ -46,4 +44,16 @@ const AnecdoteList = () => {
   );
 };
 
-export default AnecdoteList;
+const mapStateToProps = (state) => {
+  return {
+    anecdotes: state.anecdotes,
+    filter: state.filter,
+  };
+};
+
+const mapDispatchToProps = {
+  vote,
+  setNotification,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AnecdoteList);

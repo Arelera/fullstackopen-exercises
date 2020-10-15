@@ -1,11 +1,15 @@
 //action creators
+let timeoutId;
 export const setNotification = (message, ms = 5) => {
   return async (dispatch) => {
     dispatch({
       type: 'MESSAGE',
       message,
     });
-    setTimeout(() => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    timeoutId = setTimeout(() => {
       console.log('SETTIMEOUT');
       dispatch({
         type: 'REMOVE',
